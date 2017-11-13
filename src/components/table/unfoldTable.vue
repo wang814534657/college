@@ -1,49 +1,42 @@
 <template>
-  <el-table
-    :data="tableData5"
-    style="width: 100%">
-    <el-table-column type="expand">
-      <template slot-scope="props">
-        <el-table label-position="left" inline class="demo-table-expand">
-            <el-table-column
-            prop="collegesCount"
-            label="高校数"
-            >
+  <div class="tabletwo">
+    <el-table :data="schoolList" style="width: 100%">
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-table :data="tableList" style="width: 100%">
+            <el-table-column prop="province" label="高校地区" width="100">
             </el-table-column>
-            <el-table-column
-            prop="majorCount"
-            label="专业(类)数">
+            <el-table-column prop="collegeName" label="高校名称" width="100">
             </el-table-column>
-            <el-table-column
-            prop="rate"
-            label="科目比例">
+            <el-table-column prop="majorName" label="专业(类)" width="240">
             </el-table-column>
-            <el-table-column
-            prop="subject"
-            label="选考科目"
-            >
+            <el-table-column prop="subjectRangeNames" label="类中所含专业">
             </el-table-column>
-            <el-table-column
-            prop="collegesCount"
-            label="高校数"
-            >
+            <el-table-column prop="remark" label="选考科目范围" width="240">
             </el-table-column>
-        </el-table>
-      </template>
-    </el-table-column>
-    <el-table-column
-      label="商品 ID"
-      prop="id">
-    </el-table-column>
-    <el-table-column
-      label="商品名称"
-      prop="name">
-    </el-table-column>
-    <el-table-column
-      label="描述"
-      prop="desc">
-    </el-table-column>
-  </el-table>
+          </el-table>
+        </template>
+      </el-table-column>
+      <el-table-column label="高校名称" prop="collegename">
+      </el-table-column>
+      <el-table-column label="专业类" prop="major">
+      </el-table-column>
+      <el-table-column label="物理" prop="phy">
+      </el-table-column>
+      <el-table-column label="化学" prop="chemistry">
+      </el-table-column>
+      <el-table-column label="生物" prop="biology">
+      </el-table-column>
+      <el-table-column label="技术" prop="skill">
+      </el-table-column>
+      <el-table-column label="历史" prop="history">
+      </el-table-column>
+      <el-table-column label="地理" prop="geography">
+      </el-table-column>
+      <el-table-column label="政治" prop="politilcs">
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 
 <style>
@@ -59,51 +52,23 @@
   margin-bottom: 0;
   width: 50%;
 }
+.tabletwo{
+  margin-top: 50px;
+}
 </style>
 
 <script>
 export default {
   data() {
-    return {
-      tableData5: [
-        {
-          id: "12987122",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-        {
-          id: "12987123",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-        {
-          id: "12987125",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        },
-        {
-          id: "12987126",
-          name: "好滋好味鸡蛋仔",
-          category: "江浙小吃、小吃零食",
-          desc: "荷兰优质淡奶，奶香浓而不腻",
-          address: "上海市普陀区真北路",
-          shop: "王小虎夫妻店",
-          shopId: "10333"
-        }
-      ]
-    };
+    return {};
+  },
+  props:{
+    schoolList:{
+      required: true,
+    },
+    tableList:{
+      required: true,
+    },
   }
 };
 </script>

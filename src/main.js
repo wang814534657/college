@@ -17,10 +17,11 @@ import Vuex from "vuex";
 
 
 // ELEment ui
-import ElementUI from 'element-ui'
+import { Button, Table, TableColumn } from 'element-ui'
+Vue.use(Button)
+Vue.use(Table)
+Vue.use(TableColumn)
 import 'element-ui/lib/theme-chalk/index.css'
-
-Vue.use(ElementUI)
 
 
 Vue.use(Vuex);
@@ -41,23 +42,36 @@ let store = new Vuex.Store({
     major_range_obj: [],
     school_range_obj: [],
     school_area_obj: [],
-    subject_obj:[],
+    subject_obj: [],
+    school_obj: [],
+    table_list:[],
   },
   mutations: {
     updatemajor: function (state, skep) {
-         state.major_range_obj = skep;
-    },
-    updateschool_range: function (state, skep) {
-         state.school_range_obj = skep;
-    },
-    updateschool_area: function (state, skep) {
-         state.school_area_obj = skep;
+      state.major_range_obj = skep;
     },
 
-    updatesubject:function(state,skep){
-         state.subject_obj = skep; 
-         
+    updateschool_range: function (state, skep) {
+      state.school_range_obj = skep;
     },
+
+    updateschool_area: function (state, skep) {
+      state.school_area_obj = skep;
+    },
+
+    updatesubject: function (state, skep) {
+      state.subject_obj = skep;
+    },
+
+    updateschool: function (state, skep) {
+      state.school_obj = skep;
+    },
+
+    updatetableList:function(state,skep){
+       state.table_list = skep;
+       console.log(state.table_list);
+    },
+
 
     //  操作渲染的span数据
     operationMajor: function (state, item) {

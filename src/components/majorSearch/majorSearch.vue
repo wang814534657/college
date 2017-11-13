@@ -2,11 +2,13 @@
 <template>
 <div class="container">  
     <div class="ips">
-         <input type="search" placeholder="请输入你所输入的专业名称" class="form-control" id="search" name="searchText">
+
+         <input type="search" placeholder="请输入你所输入的专业名称" class="form-control" id="search" name="searchText" v-model="str">
+         {{str}}
          
     </div>
     <div id="btn">
-        <input type="button" class="btn btn-success" value="检索">
+        <input type="button" class="btn btn-success" value="检索" @click="searchtext">
     </div>
 
 
@@ -17,7 +19,7 @@
                   以专业为例：经济统计学专业历史所占比例为66.7%，
                   意为选考历史，66.7%的经济统计学专业均可报考。
                 </p>
-                <Table-list :subject-list = "$store.state.subject_obj"></Table-list>
+                <Table-list :subject-list = "$store.state.subject_obj" :search-text="text"></Table-list>
             </div>
 </div>
 </template>
@@ -29,7 +31,16 @@ export default {
     TableList
   },
   data() {
-    return {};
+    return {
+      str:"",
+      text:"历史",
+    };
+  },
+    methods:{
+    searchtext:function(){
+      this.text = this.str;
+      console.log(this.text);
+    }
   },
   created: function() {
     var vm = this;
@@ -37,7 +48,8 @@ export default {
       let subjectList = res.data.result.analysisData;
       vm.$store.commit("updatesubject", subjectList);
     });
-  }
+  },
+
 };
 </script>
 <style scoped>

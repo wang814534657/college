@@ -41,6 +41,7 @@
     </el-table-column>
    
   </el-table>
+  
 </template>
 
 <script>
@@ -54,10 +55,9 @@ export default {
   props: {
     subjectList: {
       required: true,
-    }
+    },
   },
   mounted: function() {
-    
     this.tableData = this.subjectList;
   }
 };

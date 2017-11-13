@@ -1,44 +1,42 @@
 <template>
-   <div class="container">
-        <div class="filter-box">
-            <div class="selected-condations clearfix">
-                <div class="left-title">已选条件：</div>
-                <div class="right-area">
-                     <p class="selected-text" v-if="$store.getters.majorselected != '不限'">
-                         {{$store.getters.majorselected}}
-                         <span class="close"  @click="$store.commit('clear_major')">x</span>
-                     </p>
-                     <p class="selected-range" v-if="$store.getters.rangeselected != '不限'">
-                        {{$store.getters.rangeselected}}
-                         <span class="close"  @click="$store.commit('clear_range')">x</span>
-                     </p>
-                     <p class="selected-area" v-if="$store.getters.areaselected != '不限 ,'">
-                         {{$store.getters.areaselected}}
-                         <span class="close" @click="$store.commit('clear_area')">x</span>
-                     </p>
+  <div class="container">
+    <div class="filter-box">
+      <div class="selected-condations clearfix">
+        <div class="left-title">已选条件：</div>
+        <div class="right-area">
+          <p class="selected-text" v-if="$store.getters.majorselected != '不限'">
+            {{$store.getters.majorselected}}
+            <span class="close" @click="$store.commit('clear_major')">x</span>
+          </p>
+          <p class="selected-range" v-if="$store.getters.rangeselected != '不限'">
+            {{$store.getters.rangeselected}}
+            <span class="close" @click="$store.commit('clear_range')">x</span>
+          </p>
+          <p class="selected-area" v-if="$store.getters.areaselected != '不限 ,'">
+            {{$store.getters.areaselected}}
+            <span class="close" @click="$store.commit('clear_area')">x</span>
+          </p>
 
-                </div>
-            </div>
-            <div class="condations-box">
-                <!-- 专业层次 -->
-                <major :major-range-list="$store.state.major_range_obj"></major>   
-                 <!--高校层次  -->
-                <school-range :school-range-list="$store.state.school_range_obj"></school-range>
-                <!-- 高校地区 -->
-                <school-area :school-area-list="$store.state.school_area_obj"></school-area>
-            </div>
-            <div class="subject">
-                <p class="subject-title">选考科目分析</p>
-                <p class="subject-text">
-                  科目比例：要求所选选考科目的专业总数/条件范围内专业总数。
-                  以专业为例：经济统计学专业历史所占比例为66.7%，
-                  意为选考历史，66.7%的经济统计学专业均可报考。
-                </p>
-                <Table-list :subject-list = "$store.state.subject_obj"></Table-list>
-            </div>
         </div>
+      </div>
+      <div class="condations-box">
+        <!-- 专业层次 -->
+        <major :major-range-list="$store.state.major_range_obj"></major>
+        <!--高校层次  -->
+        <school-range :school-range-list="$store.state.school_range_obj"></school-range>
+        <!-- 高校地区 -->
+        <school-area :school-area-list="$store.state.school_area_obj"></school-area>
+      </div>
+      <div class="subject">
+        <p class="subject-title">选考科目分析</p>
+        <p class="subject-text">
+          科目比例：要求所选选考科目的专业总数/条件范围内专业总数。 以专业为例：经济统计学专业历史所占比例为66.7%， 意为选考历史，66.7%的经济统计学专业均可报考。
+        </p>
+        <Table-list :subject-list="$store.state.subject_obj.slice(0,15)"></Table-list>
+        <Tableunflod :school-list="$store.state.school_obj" :table-list="$store.state.table_list"></Tableunflod>
+      </div>
     </div>
-
+  </div>
 </template>
 
 <script>
@@ -46,14 +44,15 @@ import major from "./major";
 import schoolRange from "./schoolRange";
 import schoolArea from "./schoolArea";
 import TableList from "./table/table";
-
+import Tableunflod from "./table/unfoldTable";
 export default {
   name: "Search",
   components: {
     major,
     schoolRange,
     schoolArea,
-    TableList
+    TableList,
+    Tableunflod
   },
   data() {
     return {};
@@ -93,11 +92,34 @@ export default {
 
       vm.$store.commit("updateschool_area", schoolarealist);
     });
+    // 第一个表格的数据
+    this.$http.get("static/college.json").then(function(res) {
+      let subjectList = res.data.result.analysisData;
+      vm.$store.commit("updatesubject", subjectList);
+    });
 
-     this.$http.get("static/college.json").then(function(res){
-          let subjectList =  res.data.result.analysisData;
-          vm.$store.commit('updatesubject',subjectList);
-     });
+    //第二个表格的数据
+    this.$http.get("static/school.json").then(function(res) {
+      let arr_table = res.data.result.rows[0].slice(-1)[0];
+      vm.$store.commit("updatetableList", arr_table);
+      let arr = res.data.result.rows[0].slice(0, 9);
+
+      let school_subject = arr.map(function(value, i) {
+        return {
+          collegename: arr[0],
+          major: arr[1],
+          phy: arr[2],
+          chemistry: arr[3],
+          biology: arr[4],
+          skill: arr[5],
+          history: arr[6],
+          geography: arr[7],
+          politilcs: arr[8]
+        };
+      });
+
+      vm.$store.commit("updateschool", school_subject);
+    });
   },
   mounted: function() {}
 };
